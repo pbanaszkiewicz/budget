@@ -2,15 +2,17 @@ import os
 
 import environ
 
-env = environ.Env(
-    DEBUG=(bool, False),
-)
-# read from .env file if it exists
-environ.Env.read_env()
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR is the directory where `manage.py` is located.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+# .env is in parent directory
+env_file = os.path.join(BASE_DIR, '.env')
+# read from .env file if it exists
+environ.Env.read_env(env_file)
 
 DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
