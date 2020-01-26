@@ -6,15 +6,13 @@ import environ
 # BASE_DIR is the directory where `manage.py` is located.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env = environ.Env(
-    DEBUG=(bool, False),
-)
+env = environ.Env()
 # .env is in parent directory
 env_file = os.path.join(BASE_DIR, '.env')
 # read from .env file if it exists
 environ.Env.read_env(env_file)
 
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG', False)
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = []
 
