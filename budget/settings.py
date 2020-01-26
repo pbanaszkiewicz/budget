@@ -6,15 +6,21 @@ import environ
 # BASE_DIR is the directory where `manage.py` is located.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env = environ.Env()
-# .env is in parent directory
+# Environment variables configuration
+
+env = environ.Env(
+    # default types and values
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(list, []),
+)
+# .env is in parent directory to `settings.py`
 env_file = os.path.join(BASE_DIR, '.env')
 # read from .env file if it exists
 environ.Env.read_env(env_file)
 
-DEBUG = env.bool('DEBUG', False)
+DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 
 # Application definition
