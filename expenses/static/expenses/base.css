@@ -1,0 +1,121 @@
+/*****************/
+/* COLOR PALETTE */
+/*****************/
+:root {
+    /* first palette */
+    --foreground: #333;
+    --background: #fbbba2;
+    --header-background: #6f5a7e;
+    --header-foreground: #fbbba2;;
+    --header-logo: #fbbba2;;
+    --header-link: #ff677d;
+    --header-link-focus: #cd6684;
+    --content-link: #ff677d;
+    --content-link-focus: #cd6684;
+    --border: #54445f;
+
+    /* second palette */
+    /* --foreground: #333;
+    --background: #e5dfdf;
+    --header-background: #1d4d4f;
+    --header-foreground: #e5dfdf;
+    --header-logo: #e5dfdf;
+    --header-link: #e5dfdf;
+    --header-link-focus: hsl(0, 10%, 69%);
+    --content-link: #e5dfdf;
+    --content-link-focus: #cd6684;
+    --border: #357376; */
+}
+
+/********/
+/* GRID */
+/********/
+.container { display: flex; }
+.horizontal { flex-direction: row; }
+.vertical { flex-direction: column; }
+
+body {
+    align-items: stretch;
+}
+header {
+    align-items: center;
+    justify-content: space-between;
+    flex: 1 0 auto;
+}
+nav ul {
+    align-items: stretch;
+}
+nav ul li {
+    align-items: center;
+}
+main {
+    flex: 2 0 auto;
+}
+footer {
+    flex: 1 0 auto;
+}
+
+/********************/
+/* SPACING & SIZING */
+/********************/
+body {
+    margin: 0;
+}
+main, footer {
+    padding: 1rem;
+}
+header {
+    padding: 0 0 0 1rem;
+}
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+nav ul li a {
+    padding: 2rem;
+}
+
+/**********/
+/* VISUAL */
+/**********/
+body {
+    /* background-color: #ffae8f; */
+    /* background-color: #f6eec7; */
+    background-color: var(--background);
+    color: var(--foreground);
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: Graphik Web, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+header {
+    background-color: var(--header-background);
+    color: var(--header-foreground);
+    border-bottom: 2px solid var(--border);
+}
+header h1 a {
+    color: var(--header-logo);
+    text-decoration: none;
+}
+nav ul {
+    list-style: none;
+}
+nav ul li {
+    font-size: 1.2rem;
+}
+nav ul li a {
+    text-decoration: none;
+    display: block;
+}
+nav ul li:not(:last-child) {
+    border-right: 2px solid var(--border);
+}
+a {
+    color: var(--content-link);
+}
+a:hover, a:focus {
+    color: var(--content-link-focus);
+}
+footer {
+    font-size: 0.9rem;
+    text-align: center;
+    border-top: 2px solid var(--border);
+}

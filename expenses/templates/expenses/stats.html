@@ -1,25 +1,42 @@
+{% extends "base.html" %}
 {% load mathfilters %}
-<h1>Hello World</h1>
 
-<table>
-    <tr>
-        <th>Year</th>
-        <th>Month</th>
-        <th>Expenses</th>
-        <th>Incomes</th>
-        <th>Netto</th>
-        <th>Saving rate</th>
-    </tr>
-{% for row in results %}
-    <tr>
-    {% with netto=row.sum_incomes|sub:row.sum_expenses sr=row.sum_incomes|sub:row.sum_expenses|div:row.sum_incomes %}
-        <td>{{ row.year }}</td>
-        <td>{{ row.month }}</td>
-        <td>{{ row.sum_expenses|floatformat:2 }}</td>
-        <td>{{ row.sum_incomes|floatformat:2 }}</td>
-        <td>{{ netto|floatformat:2 }}</td>
-        <td>{{ sr|mul:100|floatformat:2 }}%</td>
-    {% endwith %}
-    </tr>
-{% endfor %}
-</table>
+{% block content %}
+    <h2>{{ title }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Expenses</th>
+                <th>Incomes</th>
+                <th>Netto</th>
+                <th>Saving rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+            {% with netto=row.sum_incomes|sub:row.sum_expenses sr=row.sum_incomes|sub:row.sum_expenses|div:row.sum_incomes %}
+                <td>{{ row.year }}</td>
+                <td>{{ row.month }}</td>
+                <td>{{ row.sum_expenses|floatformat:2 }}</td>
+                <td>{{ row.sum_incomes|floatformat:2 }}</td>
+                <td>{{ netto|floatformat:2 }}</td>
+                <td>{{ sr|mul:100|floatformat:2 }}%</td>
+            {% endwith %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
