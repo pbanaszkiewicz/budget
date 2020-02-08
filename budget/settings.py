@@ -32,12 +32,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
+    'django_extensions',
     'django_select2',
     'mathfilters',  # additional math operations in templates
     'expenses.apps.ExpensesConfig',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -49,6 +52,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'budget.urls'
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 TEMPLATES = [
     {
@@ -106,3 +113,8 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# URLs to redirect to after user is logged in / logged out
+# (redirects only if `?next_page` is missing)
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
