@@ -1,0 +1,6 @@
+{% load mathfilters %}
+<td>{{ object.description }}</td>
+<td>{{ object.shop }}</td>
+<td>{{ object.date }}</td>
+<td><a href="{{ object.category.get_absolute_url }}">{{ object.category }}</a></td>
+{% include "includes/numeric_entry.html" with positive=object.income value=object.amount %}
