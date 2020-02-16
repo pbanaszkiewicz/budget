@@ -2,41 +2,79 @@
 {% load mathfilters %}
 
 {% block content %}
-    <h2>{{ title }}</h2>
+    <h2 class="title is-2">{{ title }}</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Year</th>
-                <th>Month</th>
-                <th>Expenses</th>
-                <th>Incomes</th>
-                <th>Netto</th>
-                <th>Saving rate</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in results %}
-            <tr>
-            {% with netto=row.sum_incomes|sub:row.sum_expenses sr=row.sum_incomes|sub:row.sum_expenses|div:row.sum_incomes %}
-                <td>{{ row.year }}</td>
-                <td>{{ row.month }}</td>
-                <td>{{ row.sum_expenses|floatformat:2 }}</td>
-                <td>{{ row.sum_incomes|floatformat:2 }}</td>
-                <td>{{ netto|floatformat:2 }}</td>
-                <td>{{ sr|mul:100|floatformat:2 }}%</td>
-            {% endwith %}
-            </tr>
-            {% empty %}
-            <tr>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h3 class="subtitle is-3">General</h3>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Expenses (sum)</th>
+                    <th>Incomes (sum)</th>
+                    <th>Net</th>
+                    <th>Saving rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in general_results %}
+                <tr>
+                {% with net=row.sum_incomes|sub:row.sum_expenses %}
+                {% with sr=net|div:row.sum_incomes %}
+                    <td>{{ row.trunc_date|date:'F Y' }}</td>
+                    {% include "includes/numeric_entry.html" with positive=False value=row.sum_expenses %}
+                    {% include "includes/numeric_entry.html" with positive=True value=row.sum_incomes %}
+                    {% include "includes/value_entry.html" with value=net %}
+                    <td class="has-text-right">{{ sr|mul:100|floatformat:2 }}%</td>
+                {% endwith %}
+                {% endwith %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subtitle is-3">By category & month</h3>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th rowspan=2>Category</th>
+                    {% for month in expense_months %}
+                    <th colspan=2 class="has-text-centered">{{ month.trunc_date|date:'F Y' }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for month in expense_months %}
+                    <th>Expenses (sum)</th>
+                    <th>Incomes (sum)</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in category_results %}
+                {% ifchanged category.name %}
+                {% if not forloop.first %}</tr>{% endif %}
+                <tr>
+                    <td><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></td>
+                {% endifchanged %}
+                    {% for month in expense_months %}
+                    {% if category.trunc_date == month.trunc_date %}
+                    {% include "includes/numeric_entry.html" with positive=False value=category.sum_expenses %}
+                    {% include "includes/numeric_entry.html" with positive=True value=category.sum_incomes %}
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
