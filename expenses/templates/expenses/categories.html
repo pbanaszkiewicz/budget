@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load mathfilters %}
+
+{% block content %}
+    <h2 class="title is-2">{{ title }}</h2>
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Expenses (sum)</th>
+                    <th>Incomes (sum)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in object_list %}
+                <tr>
+                    <td><a href="{{ row.get_absolute_url }}">{{ row.name }}</a></td>
+                    {% include "includes/numeric_entry.html" with positive=False value=row.sum_expenses %}
+                    {% include "includes/numeric_entry.html" with positive=True value=row.sum_incomes %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

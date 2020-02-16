@@ -67,8 +67,16 @@ class ExpenseList(ListView):
 
 
 class CategoryList(ListView):
-    model = Category
-    template_name = "expenses/category_list.html"
+    queryset = (
+        Category.objects
+            .annotate(
+                sum_expenses=Sum('expense__amount',
+                                 filter=Q(expense__income=False)),
+                sum_incomes=Sum('expense__amount',
+                                filter=Q(expense__income=True)),
+            )
+    )
+    template_name = "expenses/categories.html"
     extra_context = {
         'title': "Categories",
     }
