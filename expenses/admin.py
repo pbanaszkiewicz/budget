@@ -10,11 +10,26 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ExpenseAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
-    list_display = ["description", "shop", "date", "category", "amount", "income"]
-    list_filter = ["shop", "date", "category"]
+    list_display = [
+        "description",
+        "shop",
+        "date",
+        "category",
+        "amount",
+        "income",
+    ]
+    list_filter = [
+        "shop",
+        "date",
+        "category",
+        "income",
+    ]
     list_select_related = True
     autocomplete_fields = ["category"]
-    search_fields = ["description", "shop", "category"]
+    search_fields = [
+        "description",
+        "shop",
+    ]
 
 
 admin.site.register(Category, CategoryAdmin)
