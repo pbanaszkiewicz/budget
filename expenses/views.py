@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum, Q, DateField
 from django.db.models.functions import Trunc
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
+from django.utils.translation import gettext as _
 
 from .models import Category, Expense
 
@@ -80,3 +81,12 @@ class CategoryList(ListView):
     extra_context = {
         'title': "Categories",
     }
+
+
+class CategoryDetails(DetailView):
+    model = Category
+    template_name = "expenses/category.html"
+
+    def get_context_data(self, **kwargs):
+        title = _('Category "%s"') % self.object.name
+        return super().get_context_data(title=title)
