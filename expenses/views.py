@@ -59,10 +59,10 @@ class StatsView(TemplateView):
 
 
 class ExpenseList(ListView):
-    model = Expense
-    template_name = "expenses/expense_list.html"
+    queryset = Expense.objects.select_related('category')
+    template_name = "expenses/expenses.html"
     extra_context = {
-        'title': "Expenses",
+        'title': "List of expenses",
     }
 
 
